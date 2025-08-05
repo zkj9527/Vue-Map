@@ -26,7 +26,7 @@ public async Task<ActionResult<IEnumerable<ReservationWithVenueType>>> GetReserv
     var baseQuery = from a in _context.Reservations
                     join venueWithType in (
                         from b in _context.Venues
-                        join c in _context.Fvenues on b.Type equals c.Id into fvenueGroup
+                        join c in _context.Fvenues on (b.Type?.ToString() ?? "") equals (c.Id?.ToString() ?? "") into fvenueGroup
                         from c in fvenueGroup.DefaultIfEmpty()
                         select new { 
                             Venue_Type = c != null ? c.Venue_Type : null,
